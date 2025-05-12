@@ -41,6 +41,8 @@ async def github_commit_webhook(request: Request):
     )
 
     comment_body = response.choices[0].message.content
+    commit_sha = event.get("payload", {}).get("head_commit", {}).get("id", "")
+
 
     # Post review comment as GitHub issue comment
     toolset.execute_action(
@@ -48,7 +50,9 @@ async def github_commit_webhook(request: Request):
         params={
             "owner": "Uday-sidagana",
             "repo": repo_name,
+            "issue_number": commit_sha,
             "body": comment_body
+
         }
     )
 
