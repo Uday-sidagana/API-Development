@@ -7,7 +7,7 @@ import json
 
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(debug=True)
 toolset = ComposioToolSet()
 client = OpenAI()
 
@@ -21,7 +21,6 @@ entity.enable_trigger(
         "owner": "Uday-sidagana",
         "repo": "API-Development"
     },
-    target_url="https://c635-2409-40f0-40cf-f553-80a7-42a9-95-5e6e.ngrok-free.app/webhook/github-commit"
 )
 
 
