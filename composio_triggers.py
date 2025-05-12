@@ -1,3 +1,4 @@
+from typing import Dict, Any
 from composio_openai import ComposioToolSet, App, Action
 from fastapi import FastAPI, Request
 from openai import OpenAI
@@ -17,23 +18,22 @@ entity.enable_trigger(
     app=App.GITHUB,
     trigger_name="GITHUB_COMMIT_EVENT",
     config={
-        
         "owner": "Uday-sidagana",
         "repo": "API-Development"
     },
 )
 
-
-
-# 2. Webhook endpoint to receive trigger events
-@app.post("/webhook/github-commit")
-async def github_commit_webhook(request: Request):
-    event = await request.json()
-
-    commit_message = event.get("head_commit", {}).get("message", "")
-    commit_sha = event.get("head_commit", {}).get("id", "")
-    repo_name = event.get("repository", {}).get("name", "")
-
+# Function to generate and process commit review
+async def process_github_commit(payload: Dict[str, Any]):
+    """
+    Process GitHub commit and generate AI review
+    """
+    # Extract commit details from the payload
+    commit_message = payload.get("head_commit", {}).get("message", "")
+    commit_sha = payload.get("head_commit", {}).get("id", "")
+    repo_name = payload.get("repository", {}).get("name", "")
+    
+    # Print extracted details
     print(f"Repository Name: {repo_name}")
     print(f"Commit SHA: {commit_sha}")
     print(f"Commit Message: {commit_message}")
@@ -50,7 +50,6 @@ async def github_commit_webhook(request: Request):
     comment_body = response.choices[0].message.content
     print(comment_body)
 
-
     # Post review comment as GitHub issue comment
     toolset.execute_action(
         action=Action.GITHUB_CREATE_A_COMMIT_COMMENT,
@@ -62,9 +61,22 @@ async def github_commit_webhook(request: Request):
         }
     )
 
+# 2. Webhook endpoint to receive trigger events
+@app.post("/webhook/github")
+async def github_commit_webhook(request: Request):
+    """
+    Webhook handler to process incoming GitHub events
+    """
+    # Parse the entire request body
+    event = await request.json()
+    
+    # Print full event for debugging
+    print("Received GitHub Event:", json.dumps(event, indent=2))
+    
+    # Process the commit
+    await process_github_commit(event)
+
     return {"status": "success"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    
-#@@@@
