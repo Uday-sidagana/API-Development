@@ -214,8 +214,8 @@ agent_executor = AgentExecutor(agent=agent, tools=processed_tools, verbose=True)
 
 task = "Fetch Mail information'"
 result = agent_executor.invoke({"input": task})
-# print(result)
-print(json.dumps(result, indent=2))
+print(result)
+# print(json.dumps(result, indent=2))
 # Now, when the LLM calls this tool (without providing recipient_email),
 # the 'inject_gmail_recipient' function will run automatically
 # before Composio executes the action, adding the correct email.
