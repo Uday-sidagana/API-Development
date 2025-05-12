@@ -37,7 +37,6 @@ async def github_commit_webhook(request: Request):
     # Extract owner and repo from URL like:
     # https://github.com/Uday-sidagana/API-Development/commit/<sha>
     parts = url.split("/")
-    owner = parts[3]
     repo_name = parts[4]
 
     print(f"Repository Name: {repo_name}")
