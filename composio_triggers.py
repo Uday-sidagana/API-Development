@@ -46,7 +46,7 @@ async def github_commit_webhook(request: Request):
 
     # Post review comment as GitHub issue comment
     toolset.execute_action(
-        action=Action.GITHUB_CREATE_COMMIT_COMMENT,
+        action=Action.GITHUB_CREATE_A_COMMIT_COMMENT,
         params={
             "owner": "Uday-sidagana",
             "repo": repo_name,
