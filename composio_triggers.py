@@ -34,10 +34,14 @@ async def github_commit_webhook(request: Request):
     commit_sha = payload.get("id", "")
     url = payload.get("url", "")
 
-    # Extract owner and repo from URL like:
-    # https://github.com/Uday-sidagana/API-Development/commit/<sha>
-    parts = url.split("/")
-    repo_name = parts[4]
+# Expected format: https://github.com/<owner>/<repo>/commit/<sha>
+    parts = url.strip().split("/")
+
+    if len(parts) >= 5:
+     repo_name = parts[4]
+
+    else:
+        raise ValueError(f"Unexpected GitHub URL format: {url}")
 
     print(f"Repository Name: {repo_name}")
     print(f"Commit SHA: {commit_sha}")
