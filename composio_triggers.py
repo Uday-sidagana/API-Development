@@ -30,39 +30,48 @@ entity.enable_trigger(
 async def github_commit_webhook(request: Request):
     payload = await request.json()
 
-    commit_message = payload.get("head_commit", {}).get("message", "")
-    commit_sha = payload.get("head_commit", {}).get("id", "")
-    repo_name = payload.get("repository", {}).get("name", "")
-
-    print(f"Repository Name: {repo_name}")
-    print(f"Commit SHA: {commit_sha}")
-    print(f"Commit Message: {commit_message}")
-
-    # Call OpenAI to generate a comment
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a helpful code reviewer."},
-            {"role": "user", "content": f"Review this commit: {commit_message}"}
-        ]
-    )
-
-    comment_body = response.choices[0].message.content
-    print(comment_body)
 
 
-    # Post review comment as GitHub issue comment
-    toolset.execute_action(
-        action=Action.GITHUB_CREATE_A_COMMIT_COMMENT,
-        params={
-            "owner": "Uday-sidagana",
-            "repo": repo_name,
-            "commit_sha": commit_sha,
-            "body": comment_body
-        }
-    )
+    # commit_message = payload.get("head_commit", {}).get("message", "")
+    # commit_sha = payload.get("head_commit", {}).get("id", "")
+    # repo_name = payload.get("repository", {}).get("name", "")
 
-    return {"status": "success"}
+    # print(f"Repository Name: {repo_name}")
+    # print(f"Commit SHA: {commit_sha}")
+    # print(f"Commit Message: {commit_message}")
+
+    # # Call OpenAI to generate a comment
+    # response = client.chat.completions.create(
+    #     model="gpt-4",
+    #     messages=[
+    #         {"role": "system", "content": "You are a helpful code reviewer."},
+    #         {"role": "user", "content": f"Review this commit: {commit_message}"}
+    #     ]
+    # )
+
+    # comment_body = response.choices[0].message.content
+    # print(comment_body)
+
+
+    # # Post review comment as GitHub issue comment
+    # toolset.execute_action(
+    #     action=Action.GITHUB_CREATE_A_COMMIT_COMMENT,
+    #     params={
+    #         "owner": "Uday-sidagana",
+    #         "repo": repo_name,
+    #         "commit_sha": commit_sha,
+    #         "body": comment_body
+    #     }
+    # )
+
+    # return {"status": "success"}
+
+
+    print("Received webhook payload:")
+    print(json.dumps(payload, indent=2))
+    
+    # Return a success response
+    return {"status": "success", "message": "Webhook received"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
