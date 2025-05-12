@@ -30,9 +30,9 @@ entity.enable_trigger(
 async def github_commit_webhook(request: Request):
     event = await request.json()
 
-    commit_message = event.payload.get("head_commit", {}).get("message", "")
-    repo_name = event.payload.get("repository", {}).get("name", "")
-    commit_sha = event.payload.get("head_commit", {}).get("id", "")
+    commit_message = event.get("head_commit", {}).get("message", "")
+    repo_name = event.get("repository", {}).get("name", "")
+    commit_sha = event.get("head_commit", {}).get("id", "")
 
     # Debugging prints
     print(f"Repository Name: {repo_name}")
