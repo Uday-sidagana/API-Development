@@ -32,7 +32,7 @@ async def github_commit_webhook(request: Request):
 
     commit_message = event.get("payload", {}).get("head_commit", {}).get("message", "No commit message")
     repo_name = event.get("payload", {}).get("repository", {}).get("name", "")
-    
+
     # Call OpenAI to generate a comment
     response = client.chat.completions.create(
         model="gpt-4",
