@@ -32,6 +32,12 @@ async def github_commit_webhook(request: Request):
 
     commit_message = event.get("payload", {}).get("head_commit", {}).get("message", "No commit message")
     repo_name = event.get("payload", {}).get("repository", {}).get("name", "")
+    commit_sha = event.get("payload", {}).get("head_commit", {}).get("id", "")
+
+    # Debugging prints
+    print(f"Repository Name: {repo_name}")
+    print(f"Commit SHA: {commit_sha}")
+    print(f"Commit Message: {commit_message}")
 
     # Call OpenAI to generate a comment
     response = client.chat.completions.create(
@@ -43,7 +49,7 @@ async def github_commit_webhook(request: Request):
     )
 
     comment_body = response.choices[0].message.content
-    commit_sha = event.get("payload", {}).get("head_commit", {}).get("id", "")
+    print(comment_body)
 
 
     # Post review comment as GitHub issue comment
