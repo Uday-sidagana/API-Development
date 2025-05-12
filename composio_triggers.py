@@ -29,13 +29,11 @@ entity.enable_trigger(
 @app.post("/webhook/github-commit")
 async def github_commit_webhook(request: Request):
     event = await request.json()
-    payload = event.get("payload", {})  # <-- Fix: extract the inner GitHub payload
 
-    commit_message = payload.get("head_commit", {}).get("message", "")
-    repo_name = payload.get("repository", {}).get("name", "")
-    commit_sha = payload.get("head_commit", {}).get("id", "")
+    commit_message = event.get("head_commit", {}).get("message", "")
+    commit_sha = event.get("head_commit", {}).get("id", "")
+    repo_name = event.get("repository", {}).get("name", "")
 
-    # Debugging prints
     print(f"Repository Name: {repo_name}")
     print(f"Commit SHA: {commit_sha}")
     print(f"Commit Message: {commit_message}")
