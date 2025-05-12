@@ -1,51 +1,61 @@
-from composio_openai import ComposioToolSet, Action, App, Trigger
-import openai
+from composio_openai import ComposioToolSet, App, Action
+from fastapi import FastAPI, Request
+from openai import OpenAI
+from dotenv import load_dotenv
+import uvicorn
+import json
 
-# Initialize
+load_dotenv()
+
+app = FastAPI()
 toolset = ComposioToolSet()
-client = openai.OpenAI()  # Your OpenAI client
+client = OpenAI()
 
+# 1. Enable the GitHub Trigger for commit events
 entity = toolset.get_entity()
 entity.enable_trigger(
-    app=App.GITHUB, 
+    app=App.GITHUB,
     trigger_name="GITHUB_COMMIT_EVENT",
-    config={"owner": "Uday-sidagana", "repo": "API-Development"}
+    config={
+        "owner": "Uday-sidagana",
+        "repo": "API-Development"
+    }
 )
 
-# Set up listener
-listener = toolset.create_trigger_listener()
+# 2. Webhook endpoint to receive trigger events
+@app.post("/webhook/github-commit")
+async def github_commit_webhook(request: Request):
+    event = await request.json()
 
-@listener.callback(filters={"trigger_name": "GITHUB_COMMIT_EVENT"})
-def handle_pr(event):
+    # Optional: Verify webhook authenticity (Composio provides signature headers)
+    # signature = request.headers.get("x-composio-signature")
 
-    # title = event.payload.get("pull_request", {}).get("title", "")
-    # body = event.payload.get("pull_request", {}).get("body", "")
-    # number = event.payload.get("commit", {}).get("number")
+    # Extract useful info (customize based on payload structure)
+    commit_message = event.get("payload", {}).get("head_commit", {}).get("message", "No commit message")
+    repo_name = event.get("payload", {}).get("repository", {}).get("name", "")
     
-    # Generate a code review comment using OpenAI
-    review = client.chat.completions.create(
+    # Call OpenAI to generate a comment
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful code reviewer."},
-            {"role": "user", "content": f"Review this commit: repo-API-Development"}
+            {"role": "user", "content": f"Review this commit: {commit_message}"}
         ]
     )
-    
-    # Post the review back to GitHub
+
+    comment_body = response.choices[0].message.content
+
+    # Post review comment as GitHub issue comment
     toolset.execute_action(
         action=Action.GITHUB_CREATE_AN_ISSUE_COMMENT,
         params={
             "owner": "Uday-sidagana",
-            "repo": "API-Development",
-            "body": review.choices[0].message.content
+            "repo": repo_name,
+            "body": comment_body
         }
     )
 
-# Start listening
-listener.wait_forever()
+    return {"status": "success"}
 
-
-'''# Using same imports as above
-trigger = toolset.get_trigger("GITHUB_COMMIT_EVENT")
-print(trigger.config.model_dump_json(indent=4))
-'''
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
