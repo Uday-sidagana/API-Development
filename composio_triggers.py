@@ -32,15 +32,15 @@ async def github_commit_webhook(request: Request):
 
     commit_message = payload.get("message", "")
     commit_sha = payload.get("id", "")
-    url = payload.get("url", "")
+#     url = payload.get("url", "")
 
-# Expected format: https://github.com/<owner>/<repo>/commit/<sha>
-    parts = url.strip().split("/")
+# # Expected format: https://github.com/<owner>/<repo>/commit/<sha>
+#     parts = url.strip().split("/")
 
-    if len(parts) >= 5:
-     repo_name = parts[4]
+#     if len(parts) >= 5:
+#      repo_name = parts[4]
 
-    print(f"Repository Name: {repo_name}")
+    # print(f"Repository Name: {repo_name}")
     print(f"Commit SHA: {commit_sha}")
     print(f"Commit Message: {commit_message}")
 
@@ -62,7 +62,7 @@ async def github_commit_webhook(request: Request):
         action=Action.GITHUB_CREATE_A_COMMIT_COMMENT,
         params={
             "owner": "Uday-sidagana",
-            "repo": repo_name,
+            "repo": "API-Development",
             "commit_sha": commit_sha,
             "body": comment_body
         }
