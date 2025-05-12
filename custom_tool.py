@@ -87,7 +87,7 @@ composio_toolset = ComposioToolSet(api_key=os.getenv("COMPOSIO_API_KEY"))# Recom
 llm = ChatOpenAI()
 prompt = hub.pull("hwchase17/openai-functions-agent")
 
-
+'''
 # prompt = hub.pull("hwchase17/openai-functions-agent")
 
 
@@ -127,3 +127,48 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 task = "Get topics for my github repo Uday-sidagana/CU-Placement-Assistant"
 result = agent_executor.invoke({"input": task})
 print(result)
+'''
+
+
+# from composio_openai import ComposioToolSet, Action
+
+# toolset = ComposioToolSet()
+
+def simplify_gmail_send_schema(schema: dict) -> dict:
+    """Removes recipient_email and attachment params from the schema."""
+    params = schema.get("parameters", {}).get("properties", {})
+    params.pop("recipient_email", None)
+    params.pop("attachment", None)
+    # We could also modify descriptions here, e.g.:
+    # schema["description"] = "Sends an email using Gmail (recipient managed separately)."
+    return schema
+def inject_gmail_recipient(inputs: dict) -> dict:
+    """Injects a fixed recipient email into the inputs."""
+    # Get the recipient from app logic, context, or hardcode it
+    inputs["recipient_email"] = "uday.sidgana@gmail.com"
+    # Ensure subject exists, providing a default if necessary
+    inputs["subject"] = inputs.get("subject", "No Subject Provided")
+    return inputs
+# Combine schema processing and preprocessing
+processed_tools = composio_toolset.get_tools(
+    actions=[Action.GMAIL_SEND_EMAIL],
+    processors={
+        "schema": {Action.GMAIL_SEND_EMAIL: simplify_gmail_send_schema},
+        "pre": {Action.GMAIL_SEND_EMAIL: inject_gmail_recipient}
+    }
+)
+
+
+agent = create_openai_functions_agent(llm, processed_tools, prompt)
+agent_executor = AgentExecutor(agent=agent, tools=processed_tools, verbose=True)
+
+# task = f'Get My username from Github and run the add_numbers and calculator_mu;tiply tools on a=1,b=2 and give me result'
+# task = "Get my Github Username"
+
+task = "Send a mail saying 'This is a test using Composio Gmail'"
+result = agent_executor.invoke({"input": task})
+print(result)
+# Now, when the LLM calls this tool (without providing recipient_email),
+# the 'inject_gmail_recipient' function will run automatically
+# before Composio executes the action, adding the correct email.
+# result = toolset.handle_tool_calls(llm_response_using_processed_tools)
