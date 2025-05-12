@@ -30,20 +30,9 @@ entity.enable_trigger(
 async def github_commit_webhook(request: Request):
     payload = await request.json()
 
-    commit_message = payload.get("message", "")
-    commit_sha = payload.get("id", "")
-#     url = payload.get("url", "")
-
-# # Expected format: https://github.com/<owner>/<repo>/commit/<sha>
-#     parts = url.strip().split("/")
-
-#     if len(parts) >= 5:
-#      repo_name = parts[4]
-
-    # print(f"Repository Name: {repo_name}")
-    print(f"Commit SHA: {commit_sha}")
-    print(f"Commit Message: {commit_message}")
-
+    data = payload.get("data", {})
+    commit_message = data.get("message", "")
+    commit_sha = data.get("id", "")
     # Call OpenAI to generate a comment
     response = client.chat.completions.create(
         model="gpt-4",
