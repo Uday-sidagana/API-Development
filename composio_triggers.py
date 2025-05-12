@@ -32,7 +32,7 @@ async def github_commit_webhook(request: Request):
 
     commit_message = payload.get("message", "")
     commit_sha = payload.get("id", "")
-    url = data.get("url", "")
+    url = payload.get("url", "")
 
     # Extract owner and repo from URL like:
     # https://github.com/Uday-sidagana/API-Development/commit/<sha>
