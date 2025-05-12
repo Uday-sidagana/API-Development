@@ -40,9 +40,6 @@ async def github_commit_webhook(request: Request):
     if len(parts) >= 5:
      repo_name = parts[4]
 
-    else:
-        raise ValueError(f"Unexpected GitHub URL format: {url}")
-
     print(f"Repository Name: {repo_name}")
     print(f"Commit SHA: {commit_sha}")
     print(f"Commit Message: {commit_message}")
