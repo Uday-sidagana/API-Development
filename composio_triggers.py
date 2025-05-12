@@ -17,6 +17,7 @@ entity.enable_trigger(
     app=App.GITHUB,
     trigger_name="GITHUB_COMMIT_EVENT",
     config={
+        
         "owner": "Uday-sidagana",
         "repo": "API-Development"
     }
@@ -27,10 +28,6 @@ entity.enable_trigger(
 async def github_commit_webhook(request: Request):
     event = await request.json()
 
-    # Optional: Verify webhook authenticity (Composio provides signature headers)
-    # signature = request.headers.get("x-composio-signature")
-
-    # Extract useful info (customize based on payload structure)
     commit_message = event.get("payload", {}).get("head_commit", {}).get("message", "No commit message")
     repo_name = event.get("payload", {}).get("repository", {}).get("name", "")
     
@@ -59,4 +56,4 @@ async def github_commit_webhook(request: Request):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    # 
+    
