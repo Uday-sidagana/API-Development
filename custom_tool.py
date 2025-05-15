@@ -87,7 +87,7 @@ composio_toolset = ComposioToolSet(api_key=os.getenv("COMPOSIO_API_KEY"))# Recom
 llm = ChatOpenAI()
 prompt = hub.pull("hwchase17/openai-functions-agent")
 
-'''
+
 # prompt = hub.pull("hwchase17/openai-functions-agent")
 
 
@@ -124,10 +124,10 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 # task = f'Get My username from Github and run the add_numbers and calculator_mu;tiply tools on a=1,b=2 and give me result'
 # task = "Get my Github Username"
-task = "Get topics for my github repo Uday-sidagana/CU-Placement-Assistant"
+task = "Get topics for my github repo udayusefulagents/TestComposio"
 result = agent_executor.invoke({"input": task})
 print(result)
-'''
+
 
 
 # from composio_openai import ComposioToolSet, Action
@@ -158,65 +158,65 @@ processed_tools = composio_toolset.get_tools(
     }
 )'''
 
-import json # For pretty printing example output
+# import json # For pretty printing example output
 
-def filter_email_results(result: dict) -> dict:
-    """Filters email list to only include sender and subject."""
-    # Pass through errors or unsuccessful executions unchanged
-    if not result.get("successful") or "data" not in result:
-        return result
+# def filter_email_results(result: dict) -> dict:
+#     """Filters email list to only include sender and subject."""
+#     # Pass through errors or unsuccessful executions unchanged
+#     if not result.get("successful") or "data" not in result:
+#         return result
 
-    original_messages = result["data"].get("messages", [])
-    if not isinstance(original_messages, list):
-        return result # Return if data format is unexpected
+#     original_messages = result["data"].get("messages", [])
+#     if not isinstance(original_messages, list):
+#         return result # Return if data format is unexpected
 
-    filtered_messages = []
-    for email in original_messages:
-        filtered_messages.append({
-            "sender": email.get("sender"),
-            "subject": email.get("subject"),
-        })
+#     filtered_messages = []
+#     for email in original_messages:
+#         filtered_messages.append({
+#             "sender": email.get("sender"),
+#             "subject": email.get("subject"),
+#         })
 
-    # Construct the new result dictionary
-    processed_result = {
-        "successful": True,
-        # Use a clear key for the filtered data
-        "data": {"summary": filtered_messages},
-        "error": None
-    }
-    return processed_result
+#     # Construct the new result dictionary
+#     processed_result = {
+#         "successful": True,
+#         # Use a clear key for the filtered data
+#         "data": {"summary": filtered_messages},
+#         "error": None
+#     }
+#     return processed_result
 
-# Get tools with the postprocessor
-processed_tools = composio_toolset.get_tools(
-    actions=[Action.GMAIL_FETCH_EMAILS],
-    processors={
-        "post": {Action.GMAIL_FETCH_EMAILS: filter_email_results}
-    }
-)
+# # Get tools with the postprocessor
+# processed_tools = composio_toolset.get_tools(
+#     actions=[Action.GMAIL_FETCH_EMAILS],
+#     processors={
+#         "post": {Action.GMAIL_FETCH_EMAILS: filter_email_results}
+#     }
+# )
 
-# --- Simulate Execution and Postprocessing ---
-# Assume 'raw_execution_result' is the large dictionary returned by
-# executing GMAIL_FETCH_EMAILS without postprocessing.
-# raw_execution_result = toolset.execute_action(Action.GMAIL_FETCH_EMAILS, params={...})
+# # --- Simulate Execution and Postprocessing ---
+# # Assume 'raw_execution_result' is the large dictionary returned by
+# # executing GMAIL_FETCH_EMAILS without postprocessing.
+# # raw_execution_result = toolset.execute_action(Action.GMAIL_FETCH_EMAILS, params={...})
 
-# Apply the postprocessor manually to see the effect (handle_tool_calls does this automatically)
-# filtered_result = filter_email_results(raw_execution_result)
-# print("Filtered Result (much smaller for LLM):")
-# print(json.dumps(filtered_result, indent=2))
+# # Apply the postprocessor manually to see the effect (handle_tool_calls does this automatically)
+# # filtered_result = filter_email_results(raw_execution_result)
+# # print("Filtered Result (much smaller for LLM):")
+# # print(json.dumps(filtered_result, indent=2))
 
 
 
-agent = create_openai_functions_agent(llm, processed_tools, prompt)
-agent_executor = AgentExecutor(agent=agent, tools=processed_tools, verbose=True)
+# agent = create_openai_functions_agent(llm, processed_tools, prompt)
+# agent_executor = AgentExecutor(agent=agent, tools=processed_tools, verbose=True)
 
-# task = f'Get My username from Github and run the add_numbers and calculator_mu;tiply tools on a=1,b=2 and give me result'
-# task = "Get my Github Username"
+# # task = f'Get My username from Github and run the add_numbers and calculator_mu;tiply tools on a=1,b=2 and give me result'
+# # task = "Get my Github Username"
 
-task = "Fetch Mail information'"
-result = agent_executor.invoke({"input": task})
-print(result)
-# print(json.dumps(result, indent=2))
-# Now, when the LLM calls this tool (without providing recipient_email),
-# the 'inject_gmail_recipient' function will run automatically
-# before Composio executes the action, adding the correct email.
-# result = toolset.handle_tool_calls(llm_response_using_processed_tools)
+# task = "Fetch Mail information'"
+# result = agent_executor.invoke({"input": task})
+# print(result)
+# # print(json.dumps(result, indent=2))
+# # Now, when the LLM calls this tool (without providing recipient_email),
+# # the 'inject_gmail_recipient' function will run automatically
+# # before Composio executes the action, adding the correct email.
+# # result = toolset.handle_tool_calls(llm_response_using_processed_tools)

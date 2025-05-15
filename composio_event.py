@@ -24,3 +24,5 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 task = "Give me details of Events scheduled today, just give me title and time"
 result = agent_executor.invoke({"input": task})
 print(result)
+
+
