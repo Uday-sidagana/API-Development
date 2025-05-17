@@ -4,9 +4,9 @@
 from composio import ComposioToolSet
 from composio import Action, App
 
-composio_toolset = ComposioToolSet(api_key="")
+composio_toolset = ComposioToolSet()
 
-response = composio_toolset.execute_action(entity_id="usefulagents",
+response = composio_toolset.execute_action(entity_id="EndPointTest",
                                            action="SNOWFLAKE_DESCRIBE_TABLE",
                                             params={"database":"TESTCOMPOSIO", "schema_name":"TESTCOMPOSIO", "table_name":"USERS"})
 # Direct Execution targeting a specific connection
