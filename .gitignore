@@ -2,3 +2,4 @@
 myvenv
 __pycache__
 credentials.json
+node_modules
