@@ -38,11 +38,16 @@ composio_toolset = ComposioToolSet()
 
 response= composio_toolset.execute_action(entity_id="scopesTest",
                                           action=Action.CALENDLY_CREATE_ONE_OFF_EVENT_TYPE,
-                                          params={"date_setting": {"type": "date_range","start_date": "2025-05-18","end_date": "2025-05-18"},
-                                                  "duration":30,
-                                                  "timezone": "America/New_York",
-                                                  "host":"https://calendly.com/users/uday-usefulagents",
-                                                  "name":"Test"},
+                                          params={
+  "date_setting": {
+    "type": "date_range",
+    "start_date": "2025-06-01",
+    "end_date": "2025-06-15"
+  },
+  "duration": 30,
+  "host": "https://api.calendly.com/users/7a101816-d74f-435e-b032-3013c99702f1",
+  "name": "dummy-event"
+},
                                                   
                                           )
 
