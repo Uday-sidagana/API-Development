@@ -1,5 +1,5 @@
 # export COMPOSIO_LOGGING_LEVEL=debug
-# COMPOSIO_LOG_VERBOSITY=3COMPOSIO_LOG_VERBOSITY=3
+# COMPOSIO_LOG_VERBOSITY=3
 # ***REMOVED***
 from composio import ComposioToolSet
 from composio import Action, App

@@ -38,11 +38,15 @@ composio_toolset = ComposioToolSet()
 
 response= composio_toolset.execute_action(entity_id="scopesTest",
                                           action=Action.CALENDLY_CREATE_ONE_OFF_EVENT_TYPE,
-                                          params={"date_setting": { "message": "India Standard Time"  },"duration":30, "host":"https://calendly.com/uday-usefulagents", "name":"Test"},
+                                          params={"date_setting": {"type": "date_range","start_date": "2025-05-18","end_date": "2025-05-18"},
+                                                  "duration":30,
+                                                  "timezone": "America/New_York",
+                                                  "host":"https://calendly.com/users/uday-usefulagents",
+                                                  "name":"Test"},
+                                                  
                                           )
 
 print(response)
-
 
 
 
