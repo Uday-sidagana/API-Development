@@ -24,7 +24,8 @@ def query_contact_by_name(
                   if successful, or an error message if an issue occurs.
     """
     try:
-        query = f"SELECT Id, Name, Email, Phone FROM Contact WHERE Name LIKE '%Test%'"
+        # query = f"SELECT Id, Name, Email, Phone FROM Contact WHERE Name LIKE '%Test%'"
+        query = f"SELECT Id, Name, Email, Phone FROM Account'"
         encoded_query = requests.utils.quote(query)
 
         response_data = execute_request(
@@ -52,4 +53,4 @@ def execute_composio_tool(action: Action, user_id: str, params: dict[str, Any]):
     return result
     
 
-print(execute_composio_tool(query_contact_by_name, "customapptest", {"name": "Uday"}))
+print(execute_composio_tool(query_contact_by_name, "customapptest", {"name": "Composio"}))

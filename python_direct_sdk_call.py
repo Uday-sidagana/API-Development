@@ -13,13 +13,23 @@ response = composio_toolset.execute_action(entity_id="EndPointTest",
 # response= composio_toolset.execute_action(connected_account_id="ca_j876qdxfdUuN",
 #                                           action=Action.GMAIL_SEND_EMAIL,
 #                                           params={"recipient_email":"uday.sidgana@gmail.com", "body":"Hell there, this is a test"},
-#                                           )
+#   
+# 
+#                                         )
 
-# print(response)
+response = composio_toolset.execute_action(action="SALESFORCE_RETRIEVE_SPECIFIC_CONTACT_BY_ID", params={"id": "003Wd000004ApjkIAC"})
+
+print(response)
+
+
+# integrationID= composio_toolset.get_integration("19acc862-dd9d-4572-983f-cdc8cee5c33e")
+# print(integrationID)
 
 # AccountID = composio_toolset.get
 # print(AccountID)
 
-entity = composio_toolset.get_entity("customapptest")
+# entity = composio_toolset.get_entity("customapptest")
 # response = composio_toolset.execute_action(entity_id=entity, )
-print(entity.id)
+# integration = composio_toolset.get_integration("5fa6df08-0724-4ea5-a82d-56ce29551d20")
+# # print(entity.id)
+# print(integration)

@@ -118,7 +118,9 @@ def get_github_repo_topics(
         return {"error": str(e)}
     
 
-tools = composio_toolset.get_tools(actions=[Action.GITHUB_GET_ALL_REPOSITORY_TOPICS,])
+# tools = composio_toolset.get_tools(actions=[Action.GITHUB_GET_ALL_REPOSITORY_TOPICS,])
+tools = composio_toolset.get_tools(actions=[get_github_repo_topics])
+
 agent = create_openai_functions_agent(llm, tools, prompt)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
