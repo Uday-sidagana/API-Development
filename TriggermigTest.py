@@ -1,0 +1,35 @@
+# qnjc3y6yzap!v86mbwu0ws------- adding !
+
+
+#Initiating a Trigger
+from composio_openai import ComposioToolSet,App
+
+toolset = ComposioToolSet(api_key="")
+
+user_id = "uday" # User ID referencing an entity retrieved from application logic
+entity = toolset.get_entity(id=user_id)
+triggers = toolset.get_trigger("GMAIL_NEW_GMAIL_MESSAGE")
+
+res = entity.enable_trigger(
+    app=App.GMAIL,
+    trigger_name="GMAIL_NEW_GMAIL_MESSAGE",
+    config={}
+)
+
+print(res["status"])
+
+
+# #Viewing the configuration
+
+# # Using same imports as above
+# trigger = toolset.get_trigger("GITHUB_STAR_ADDED_EVENT")
+# print(trigger.config.model_dump_json(indent=4))
+
+
+# # Specifying the Config
+# response = entity.enable_trigger(
+#     app=App.GITHUB,
+#     trigger_name="GITHUB_PULL_REQUEST_EVENT",
+#     config={"owner": "composiohq", "repo": "composio"},
+# )
+

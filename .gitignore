@@ -3,3 +3,7 @@ myvenv
 __pycache__
 credentials.json
 node_modules
+claude_desktop_config.json
+package.json
+package-lock.json
+node_modules
