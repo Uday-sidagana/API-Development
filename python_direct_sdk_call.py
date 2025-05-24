@@ -18,8 +18,10 @@ response = composio_toolset.execute_action(entity_id="EndPointTest",
 #                                         )
 
 
-response = composio_toolset.get_app(app=App.GITHUB)
-composio_toolset.execute_request
+resp = composio_toolset.get_action(action=Action.BOX_REMOVE_USER_FROM_LIST_OF_USERS_EXEMPT_FROM_DOMAIN_RESTRICTIONS)
+
+# response = composio_toolset.get_app(app=App.GITHUB)
+# composio_toolset.execute_request
 
 # response = composio_toolset.execute_action(action="GMAIL_FETCH_EMAILS", params={})
 # response = composio_toolset.get_app("DROPBOX")
@@ -34,7 +36,7 @@ composio_toolset.execute_request
 
 # response = composio_toolset.execute_action(action="SALESFORCE_RETRIEVE_SPECIFIC_CONTACT_BY_ID", params={"id": "003Wd000004ApjkIAC"})
 
-print(response)
+print(resp)
 
 
 # integrationID= composio_toolset.get_integration("19acc862-dd9d-4572-983f-cdc8cee5c33e")
