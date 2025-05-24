@@ -17,7 +17,15 @@ response = composio_toolset.execute_action(entity_id="EndPointTest",
 # 
 #                                         )
 
-response = composio_toolset.execute_action(action="YOUTUBE_VIDEO_DETAILS", params={"query": "Composio"})
+
+response = composio_toolset.get_app(app=App.GITHUB)
+composio_toolset.execute_request
+
+# response = composio_toolset.execute_action(action="GMAIL_FETCH_EMAILS", params={})
+# response = composio_toolset.get_app("DROPBOX")
+# response = composio_toolset.get_connected_account("6c63db5b-f5a2-40bf-9c93-af0a877c0d7d")
+
+# response = composio_toolset.execute_action(action="YOUTUBE_VIDEO_DETAILS", params={"Id": ""})
 
 # tools = composio_toolset.get_action(action=Action.SNOWFLAKE_DESCRIBE_TABLE)
 # tools.description = "New Description"

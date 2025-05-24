@@ -1,7 +1,9 @@
+// sgo23fdtwtdoy!5xhysewtp--- inserted !
+
 import { OpenAIToolSet } from "composio-core";
 import { OpenAI } from "openai";
 
-const toolset = new OpenAIToolSet();
+const toolset = new OpenAIToolSet({apiKey:""});
 const tools = await toolset.getTools({
   actions: ["SERPAPI_SEARCH"]
 });
@@ -9,7 +11,7 @@ const tools = await toolset.getTools({
 const client = new OpenAI();
 
 const messages = [
-  { role: "user",content: "Search for Composio" }
+  { role: "user",content: "Search for Composio and give a 3 line summary" }
 ];
 
 while (true) {
