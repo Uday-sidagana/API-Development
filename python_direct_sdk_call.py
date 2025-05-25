@@ -18,12 +18,19 @@ response = composio_toolset.execute_action(entity_id="EndPointTest",
 #                                         )
 
 
-resp = composio_toolset.get_action(action=Action.BOX_REMOVE_USER_FROM_LIST_OF_USERS_EXEMPT_FROM_DOMAIN_RESTRICTIONS)
+# resp = composio_toolset.get_action(action=Action.BOX_REMOVE_USER_FROM_LIST_OF_USERS_EXEMPT_FROM_DOMAIN_RESTRICTIONS)
+
+
+
 
 # response = composio_toolset.get_app(app=App.GITHUB)
 # composio_toolset.execute_request
 
-# response = composio_toolset.execute_action(action="GMAIL_FETCH_EMAILS", params={})
+response = composio_toolset.execute_action(action="GMAIL_FETCH_EMAILS", params={'max_results': 1})
+response = composio_toolset.execute_action(action="YOUTUBE_SEARCH_YOU_TUBE", params={'q': "Composio"})
+
+
+
 # response = composio_toolset.get_app("DROPBOX")
 # response = composio_toolset.get_connected_account("6c63db5b-f5a2-40bf-9c93-af0a877c0d7d")
 
@@ -36,7 +43,7 @@ resp = composio_toolset.get_action(action=Action.BOX_REMOVE_USER_FROM_LIST_OF_US
 
 # response = composio_toolset.execute_action(action="SALESFORCE_RETRIEVE_SPECIFIC_CONTACT_BY_ID", params={"id": "003Wd000004ApjkIAC"})
 
-print(resp)
+print(response)
 
 
 # integrationID= composio_toolset.get_integration("19acc862-dd9d-4572-983f-cdc8cee5c33e")
